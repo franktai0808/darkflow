@@ -16,7 +16,6 @@ face_cascade = cv2.CascadeClassifier("./cv2_data/haar_cascades/haarcascade_front
 recognizer = cv2.face.LBPHFaceRecognizer_create()
 recognizer.read("./cv2_data/face_recog/david_helen_model.yaml")
 
-from ...net.detect_sidewalk import run_sidewalk_detection
 from ...utils.box import BoundBox
 from ...cython_utils.cy_yolo2_findboxes import box_constructor
 from google_speech import Speech
@@ -465,9 +464,5 @@ def postprocess(self,net_out,im,video_id,frame_id = 0,csv_file=None,csv=None,mas
                 with SocketIO("http://ec2-18-191-1-128.us-east-2.compute.amazonaws.com", 80, LoggingNamespace) as socketIO:
                     socketIO.emit("video_data_point", socketio_json)
 
-    #Sidewalk Detection
-    if self.FLAGS.sidewalk_detection:
-        _, command = run_sidewalk_detection(im)
-        #print("navigation command: " + command)
 
     return imgcv, speech_actions
